@@ -98,41 +98,51 @@ public class Converter {
             JSONArray cols = (JSONArray) jsonObject.get("colHeaders");
             JSONArray rows = (JSONArray)jsonObject.get("rowHeaders");
             JSONArray datas = (JSONArray)jsonObject.get("data");
+            
             // INSERT YOUR CODE HERE
             int j = 0;
             int counter = 1;
+            
+            //for loop to print the column headers
             for(int i = 0; i < cols.size(); i++){
                 if(i != cols.size()-1){
-                    //results.concat("\""+cols.get(i)+"\",");
+                    writer.append("\""+cols.get(i)+"\",");
                     System.out.print("\""+cols.get(i)+"\",");
                 }
                 else{
-                    //results.concat("\""+cols.get(i)+"\"");
+                    writer.append("\""+cols.get(i)+"\"");
                     System.out.print("\""+cols.get(i)+"\"");
                 }
-                //System.out.print("\""+cols.get(i)+"\"");
             }
+            writer.append("\n");
             System.out.println();
+            
+            /*
+            for loop to print the rows with a nested while and for loop to print the data per each row
+            */
             for(int i = 0; i < rows.size(); i++){
+                writer.append("\""+rows.get(i)+"\",");
                 System.out.print("\""+rows.get(i)+"\",");
                 while(j < counter){
                     JSONArray part = (JSONArray)datas.get(j);
-                    //String part = datas.get(j).toString();
                     for(int k = 0; k < part.size(); k++){
                         if(k != part.size()-1){
+                            writer.append("\""+part.get(k)+"\",");
                             System.out.print("\""+part.get(k)+"\",");
                         }
                         else{
+                            writer.append("\""+part.get(k)+"\"");
                             System.out.print("\""+part.get(k)+"\"");
                         }
                     }
                     j++;
                 }
                 counter++;
+                writer.append("\n");
                 System.out.println();
             }
             
-            
+            results += writer.toString();
         }
         
         catch(ParseException e) { return e.toString(); }
