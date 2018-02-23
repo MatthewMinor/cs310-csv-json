@@ -57,6 +57,11 @@ public class Converter {
         JSONArray data = new JSONArray();
 
         //adding the names to the column heads
+        /*
+        for(int i = 0; i < 6; i++){
+            colHeaders.add();
+        }
+        */
         colHeaders.add("ID"); colHeaders.add("Total"); colHeaders.add("Assignment 1"); colHeaders.add("Assignment 2"); colHeaders.add("Exam 1");
 
         jsonObject.put("colHeaders", colHeaders); jsonObject.put("rowHeaders", rowHeaders); jsonObject.put("data", data);
@@ -91,7 +96,7 @@ public class Converter {
             JSONObject jsonObject = (JSONObject)parser.parse(jsonString);
             
             StringWriter writer = new StringWriter();
-            CSVWriter csvWriter = new CSVWriter(writer, ',', '"', '\n');
+            //CSVWriter csvWriter = new CSVWriter(writer, ',', '"', '\n');
             
             
             //creating arrays to store info
@@ -107,39 +112,34 @@ public class Converter {
             for(int i = 0; i < cols.size(); i++){
                 if(i != cols.size()-1){
                     writer.append("\""+cols.get(i)+"\",");
-                    System.out.print("\""+cols.get(i)+"\",");
+                    //System.out.print("\""+cols.get(i)+"\",");
                 }
                 else{
                     writer.append("\""+cols.get(i)+"\"");
-                    System.out.print("\""+cols.get(i)+"\"");
+                    //System.out.print("\""+cols.get(i)+"\"");
                 }
             }
             writer.append("\n");
-            System.out.println();
             
             /*
             for loop to print the rows with a nested while and for loop to print the data per each row
             */
             for(int i = 0; i < rows.size(); i++){
                 writer.append("\""+rows.get(i)+"\",");
-                System.out.print("\""+rows.get(i)+"\",");
                 while(j < counter){
                     JSONArray part = (JSONArray)datas.get(j);
                     for(int k = 0; k < part.size(); k++){
                         if(k != part.size()-1){
                             writer.append("\""+part.get(k)+"\",");
-                            System.out.print("\""+part.get(k)+"\",");
                         }
                         else{
                             writer.append("\""+part.get(k)+"\"");
-                            System.out.print("\""+part.get(k)+"\"");
                         }
                     }
                     j++;
                 }
                 counter++;
                 writer.append("\n");
-                System.out.println();
             }
             
             results += writer.toString();
