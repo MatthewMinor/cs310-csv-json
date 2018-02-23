@@ -44,31 +44,35 @@ public class Converter {
     @SuppressWarnings("unchecked")
     public static String csvToJson(String csvString) {
         
-        String results = "";
-        CSVReader reader = new CSVReader(new StringReader(csvString));
-        //List<String[]> full = reader.readAll();
-        //Iterator<String[]> iterator = full.iterator();
-
-        JSONObject jsonObject = new JSONObject();
-
-        // INSERT YOUR CODE HERE
-        JSONArray colHeaders = new JSONArray();
-        JSONArray rowHeaders = new JSONArray();
-        JSONArray data = new JSONArray();
-
-        //adding the names to the column heads
-        /*
-        for(int i = 0; i < 6; i++){
-            colHeaders.add();
-        }
-        */
-        colHeaders.add("ID"); colHeaders.add("Total"); colHeaders.add("Assignment 1"); colHeaders.add("Assignment 2"); colHeaders.add("Exam 1");
-
-        jsonObject.put("colHeaders", colHeaders); jsonObject.put("rowHeaders", rowHeaders); jsonObject.put("data", data);
-
+        
+        
         CSVParser parser = new CSVParser();
         BufferedReader bReader = new BufferedReader(new StringReader(csvString));
+        JSONObject jsonObject = new JSONObject();
         try {
+
+
+            String results = "";
+            CSVReader reader = new CSVReader(new StringReader(csvString));
+            List<String[]> full = reader.readAll();
+            Iterator<String[]> iterator = full.iterator();
+
+            
+
+            // INSERT YOUR CODE HERE
+            JSONArray colHeaders = new JSONArray();
+            JSONArray rowHeaders = new JSONArray();
+            JSONArray data = new JSONArray();
+            String[] cols = iterator.next();
+            //adding the names to the column heads
+            /*
+            for(int i = 0; i < 6; i++){
+                cols.append(i);
+            }
+            */
+            colHeaders.add("ID"); colHeaders.add("Total"); colHeaders.add("Assignment 1"); colHeaders.add("Assignment 2"); colHeaders.add("Exam 1");
+            jsonObject.put("colHeaders", colHeaders); jsonObject.put("rowHeaders", rowHeaders); jsonObject.put("data", data);
+
             String line = bReader.readLine();
             while((line = bReader.readLine()) != null){
                     String[] parsedData = parser.parseLine(line);
@@ -112,11 +116,9 @@ public class Converter {
             for(int i = 0; i < cols.size(); i++){
                 if(i != cols.size()-1){
                     writer.append("\""+cols.get(i)+"\",");
-                    //System.out.print("\""+cols.get(i)+"\",");
                 }
                 else{
                     writer.append("\""+cols.get(i)+"\"");
-                    //System.out.print("\""+cols.get(i)+"\"");
                 }
             }
             writer.append("\n");
